@@ -25,7 +25,6 @@ import {
   StandardMaterial,
   Vector3,
   Matrix,
-  Light,
 } from '@babylonjs/core';
 import Toast from 'react-native-simple-toast';
 import {throttle} from 'lodash';
@@ -219,18 +218,11 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
       const activeCamera = scene.activeCamera as ArcRotateCamera;
       activeCamera.alpha = Math.PI * 0.5;
       activeCamera.beta = Math.PI * 0.1;
-      activeCamera.radius = 200;
+      activeCamera.radius = 15;
       activeCamera.target = new Vector3(0, 0, 0); // 카메라가 바라보는 대상을 설정합니다.
       activeCamera.lockedTarget = new Vector3(0, 0, 0); // 카메라가 항상 이 대상을 바라보도록 합니다.
       // activeCamera.inputs.clear();
       setCamera(activeCamera);
-
-      const light = scene.lights.find(
-        light => light.name === 'default light',
-      ) as Light;
-      if (light) {
-        light.getAbsolutePosition().set(0, 10000, 1000);
-      }
 
       // Add a ground to the new scene
       const ground = MeshBuilder.CreateGround(
@@ -247,6 +239,7 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
       // Create a green material
       const groundMaterial = new StandardMaterial('groundMaterial', scene);
       groundMaterial.diffuseColor = new Color3(0.1, 0.1, 0.1); // RGB values range from 0 to 1
+      groundMaterial.specularColor = new Color3(0, 0, 0); // 빛의 반사를 제거합니다.
       ground.material = groundMaterial;
 
       // 주사위
