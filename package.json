@@ -4,10 +4,13 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "android:release": "cd android && ./gradlew assembleRelease",
     "ios run guide": "@babylonjs does not support simulators, so you have to run it on a real device.",
     "ios": "react-native run-ios --device",
+    "ios:release": "react-native run-ios --device --configuration Release",
     "lint": "eslint .",
     "start": "react-native start",
+    "clean": "react-native start -- --reset-cache",
     "test": "jest"
   },
   "dependencies": {
