@@ -1,17 +1,14 @@
-import React, {FunctionComponent, useEffect, useRef} from 'react';
+import React, {FunctionComponent, useEffect} from 'react';
 import {View, ViewProps, Image, Pressable} from 'react-native';
 import {EngineView} from '@babylonjs/react-native';
-import BottomSheet from '@gorhom/bottom-sheet';
 
 import '@babylonjs/loaders/glTF';
 import {Mesh, MeshBuilder, PhysicsImpostor, Vector3} from '@babylonjs/core';
-
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-
 import {useBabylonStore} from './stores';
 import {useInitBabylon} from './babylon/useInitBabylon';
 import {useRelocationDice, useShakeDice} from './babylon/actions';
 import {SettingBottomSheet} from './components/SettingBottomSheet';
+import {Header} from './components/Header';
 
 const setWallTransparency = (mesh: Mesh) => {
   // Set the visibility of the wall
@@ -21,12 +18,7 @@ const setWallTransparency = (mesh: Mesh) => {
 const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
   const {scene, camera} = useBabylonStore();
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  const insets = useSafeAreaInsets();
-
   useInitBabylon();
-
   const shakeDice = useShakeDice();
   const relocationDice = useRelocationDice();
 
@@ -113,39 +105,13 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
     }
   }, [scene]);
 
-  console.log('🐞??', camera);
-
   return (
     <>
       <View style={props.style}>
         <View style={{flex: 1}}>
           <EngineView camera={camera} displayFrameRate={true} />
 
-          <View
-            style={{
-              position: 'absolute',
-              top: insets.top,
-              padding: 16,
-              flexGrow: 1,
-              width: '100%',
-              alignContent: 'center',
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-            }}>
-            <Pressable
-              onPress={() => {
-                if (bottomSheetRef.current === null) {
-                  return;
-                }
-                bottomSheetRef.current.snapToIndex(1);
-              }}>
-              <Image
-                source={require('../assets/images/setting.png')}
-                style={{height: 50, width: 50}}
-              />
-            </Pressable>
-          </View>
-
+          <Header />
           <View
             style={{
               position: 'absolute',

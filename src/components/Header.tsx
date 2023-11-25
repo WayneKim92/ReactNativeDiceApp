@@ -27,7 +27,7 @@ export function Header() {
           settingBottomSheet.snapToIndex(1);
         }}>
         <Image
-          source={require('../assets/images/setting.png')}
+          source={require('@assets/images/setting.png')}
           style={{height: 50, width: 50}}
         />
       </Pressable>
