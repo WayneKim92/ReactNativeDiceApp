@@ -7,10 +7,11 @@ import {usePhysicsEngine} from './usePhysicsEngine';
 import {useDiceCountChanged, useShakeDice} from './actions';
 import {useInitModels} from './useInitModels';
 import RNShake from 'react-native-shake';
+import {getLatestDiceCount} from '../storages/KeyValueStorage';
 
 export const useInitBabylon = () => {
   const engine = useEngine();
-  const {setEngine} = useBabylonStore();
+  const {setEngine, setDiceCount} = useBabylonStore();
 
   useEffect(() => {
     setEngine(engine);
@@ -22,6 +23,13 @@ export const useInitBabylon = () => {
   useInitModels();
 
   useDiceCountChanged();
+
+  useEffect(() => {
+    (async () => {
+      const latestDiceCount = await getLatestDiceCount();
+      setDiceCount(latestDiceCount as number);
+    })();
+  }, [setDiceCount]);
 
   const shakeDice = useShakeDice();
   useEffect(() => {

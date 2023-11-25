@@ -4,6 +4,7 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import {EdgeInsets, Row, Spacer} from '@wayne-kim/react-native-layout';
 import {maxDiceCount, minDiceCount} from '../babylon/consts';
 import {useBabylonStore, useBottomSheetStore} from '../stores';
+import {setLatestDiceCount} from '../storages/KeyValueStorage';
 
 export function SettingBottomSheet() {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -41,7 +42,12 @@ export function SettingBottomSheet() {
             style={{backgroundColor: 'black', padding: 8}}
             onPress={() => {
               if (diceCount < maxDiceCount) {
-                setDiceCount(diceCount + 1);
+                const newDiceCount = diceCount + 1;
+                setDiceCount(newDiceCount);
+
+                if (setLatestDiceCount) {
+                  setLatestDiceCount(newDiceCount).catch(() => {});
+                }
               }
             }}>
             <Text style={{color: 'white'}}>UP</Text>
@@ -51,7 +57,12 @@ export function SettingBottomSheet() {
             style={{backgroundColor: 'black', padding: 8}}
             onPress={() => {
               if (diceCount > minDiceCount) {
-                setDiceCount(diceCount - 1);
+                const newDiceCount = diceCount - 1;
+                setDiceCount(newDiceCount);
+
+                if (setLatestDiceCount) {
+                  setLatestDiceCount(newDiceCount).catch(() => {});
+                }
               }
             }}>
             <Text style={{color: 'white'}}>Down</Text>
