@@ -4,8 +4,9 @@ import {useEffect} from 'react';
 import {useLoadDice} from './useLoadDice';
 import {useInitCamera} from './useInitCamera';
 import {usePhysicsEngine} from './usePhysicsEngine';
-import {useDiceCountChanged} from './actions';
+import {useDiceCountChanged, useShakeDice} from './actions';
 import {useInitModels} from './useInitModels';
+import RNShake from 'react-native-shake';
 
 export const useInitBabylon = () => {
   const engine = useEngine();
@@ -21,4 +22,15 @@ export const useInitBabylon = () => {
   useInitModels();
 
   useDiceCountChanged();
+
+  const shakeDice = useShakeDice();
+  useEffect(() => {
+    const subscription = RNShake.addListener(() => {
+      shakeDice();
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, [shakeDice]);
 };

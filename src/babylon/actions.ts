@@ -21,6 +21,7 @@ export const useShowTotalCount = () => {
 export const useShakeDice = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const {scene} = useBabylonStore();
+  const directionRef = useRef(randomNegativeOrPositiveOne());
 
   const showTotalCount = useShowTotalCount();
 
@@ -30,10 +31,11 @@ export const useShakeDice = () => {
         if (mesh.name.startsWith('dice')) {
           if (mesh.physicsImpostor) {
             const forceDirection = new Vector3(
-              1 + Math.random() * force * randomNegativeOrPositiveOne(),
+              1 + Math.random() * force * directionRef.current,
               1 + Math.random() * force,
-              1 + Math.random() * force * randomNegativeOrPositiveOne(),
+              1 + Math.random() * force * directionRef.current,
             );
+            directionRef.current = directionRef.current * -1;
 
             if (mesh.physicsImpostor === null) {
               return;

@@ -5742,6 +5742,11 @@ react-native-safe-area-context@^4.7.4:
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.7.4.tgz#3dd8438971e70043d76f2428ede75b8a9639265e"
   integrity sha512-3LR3DCq9pdzlbq6vsHGWBFehXAKDh2Ljug6jWhLWs1QFuJHM6AS2+mH2JfKlB2LqiSFZOBcZfHQFz0sGaA3uqg==
 
+react-native-shake@^5.5.2:
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-shake/-/react-native-shake-5.5.2.tgz#1e73cfb3dcefc9980f604d08a87cdc6ba3f3a479"
+  integrity sha512-GWQc/2h33u3ma2bBUEFG4sEQXfSmu2azEF1bUaqu+d0TeAT3vvmxpw3u6k7Z9XiZk4uRJ+NCVifx4JTHF5n67g==
+
 react-native-simple-toast@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-3.1.0.tgz#c9c2cc666803a74c690b274d4faa107283c228c1"
