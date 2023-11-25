@@ -1,6 +1,7 @@
 import '@babylonjs/loaders/glTF';
 
 import {useEffect} from 'react';
+import BootSplash from 'react-native-bootsplash';
 import {SceneLoader} from '@babylonjs/core/Loading/sceneLoader';
 import {Mesh, PhysicsImpostor, Vector3} from '@babylonjs/core';
 import {useBabylonStore} from '../stores';
@@ -35,6 +36,8 @@ export const useLoadDice = () => {
               setDiceMesh(mesh as Mesh);
             }
           });
+
+          BootSplash.hide();
         })
         .catch(err => {
           console.log('🐞err', err);
