@@ -1,7 +1,9 @@
+import '@babylonjs/loaders/glTF';
+
 import {useEffect} from 'react';
 import {SceneLoader} from '@babylonjs/core/Loading/sceneLoader';
-import {useBabylonStore} from '../stores';
 import {Mesh, PhysicsImpostor, Vector3} from '@babylonjs/core';
+import {useBabylonStore} from '../stores';
 
 export const useLoadDice = () => {
   const {engine, setScene, setDiceMesh} = useBabylonStore();

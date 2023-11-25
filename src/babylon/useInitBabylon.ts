@@ -5,6 +5,7 @@ import {useLoadDice} from './useLoadDice';
 import {useInitCamera} from './useInitCamera';
 import {usePhysicsEngine} from './usePhysicsEngine';
 import {useDiceCountChanged} from './actions';
+import {useInitModels} from './useInitModels';
 
 export const useInitBabylon = () => {
   const engine = useEngine();
@@ -14,8 +15,10 @@ export const useInitBabylon = () => {
     setEngine(engine);
   }, [engine, setEngine]);
   usePhysicsEngine();
+  useInitCamera();
 
   useLoadDice();
-  useInitCamera();
+  useInitModels();
+
   useDiceCountChanged();
 };
