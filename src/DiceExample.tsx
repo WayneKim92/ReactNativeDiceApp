@@ -25,6 +25,7 @@ import {
   StandardMaterial,
   Vector3,
   Matrix,
+  Light,
 } from '@babylonjs/core';
 import Toast from 'react-native-simple-toast';
 import {throttle} from 'lodash';
@@ -217,12 +218,19 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
       // set the active camera
       const activeCamera = scene.activeCamera as ArcRotateCamera;
       activeCamera.alpha = Math.PI * 0.5;
-      activeCamera.beta = Math.PI * 0.25;
-      activeCamera.radius = 20;
+      activeCamera.beta = Math.PI * 0.1;
+      activeCamera.radius = 200;
       activeCamera.target = new Vector3(0, 0, 0); // 카메라가 바라보는 대상을 설정합니다.
       activeCamera.lockedTarget = new Vector3(0, 0, 0); // 카메라가 항상 이 대상을 바라보도록 합니다.
       // activeCamera.inputs.clear();
       setCamera(activeCamera);
+
+      const light = scene.lights.find(
+        light => light.name === 'default light',
+      ) as Light;
+      if (light) {
+        light.getAbsolutePosition().set(0, 10000, 1000);
+      }
 
       // Add a ground to the new scene
       const ground = MeshBuilder.CreateGround(
@@ -250,7 +258,7 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
           }
 
           mesh.name = 'originDice';
-          mesh.position = new Vector3(0, 0.5, 50);
+          mesh.position = new Vector3(0, 0.5, 40);
           mesh.physicsImpostor = new PhysicsImpostor(
             mesh,
             PhysicsImpostor.BoxImpostor,
@@ -362,7 +370,7 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
 
       // 주사위를 diceCount 수에 맞게 새로 생성합니다.
       for (let i = 0; i < diceCount; i++) {
-        diceModelRef.current.position = new Vector3(0, 0.5, 50);
+        diceModelRef.current.position = new Vector3(0, 0.5, 40);
         const cloneDice = diceModelRef.current.clone(`dice${i}`, null, true);
         // 위치 겹치면 안 보이는 이슈 있어서, 서로 다르게 해주어야함
         if (cloneDice) {

@@ -38,7 +38,7 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
         // https://gero3.github.io/facetype.js/
         // fft 폰트 파일을 위 사이트에서 json으로 변경하면 폰트의 좌표값을 얻을 수 있다.
         const fontData =
-          await require('../assets/fonts/Noto_Sans_KR_Bold.json');
+          await require('../../assets/fonts/Noto_Sans_KR_Bold.json');
         MeshBuilder.CreateText(
           'myText',
           '안녕 숨고 친구들!',
