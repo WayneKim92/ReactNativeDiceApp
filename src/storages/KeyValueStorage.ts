@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {minDiceCount} from '../babylon/consts';
 
 const setItem = AsyncStorage.setItem;
 const getItem = AsyncStorage.getItem;
@@ -18,9 +19,8 @@ export const setLatestDiceCount = async (count: number) => {
 
 export const getLatestDiceCount = async () => {
   try {
-    const latestDiceCount = await getItem(
-      KeyValueStorageKeys.LATEST_DICE_COUNT,
-    );
+    const latestDiceCount =
+      (await getItem(KeyValueStorageKeys.LATEST_DICE_COUNT)) ?? minDiceCount;
     return Number(latestDiceCount);
   } catch (e) {
     console.log('🐞e', e);
