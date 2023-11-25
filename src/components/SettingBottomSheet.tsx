@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 // import {NativeViewGestureHandler} from 'react-native-gesture-handler';
-import {Pressable, Text, View} from 'react-native';
+import {Linking, Pressable, Text} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {Column, EdgeInsets, Row, Spacer} from '@wayne-kim/react-native-layout';
@@ -144,9 +144,12 @@ export function SettingBottomSheet() {
         </ScrollView>
         {/*</NativeViewGestureHandler>*/}
         <Spacer size={16} />
-        <View>
-          <Text>요청</Text>
-        </View>
+        <Pressable
+          onPress={() =>
+            Linking.openURL('https://forms.gle/wVJhpSDzJgWsbyhp7')
+          }>
+          <Text>요청사항</Text>
+        </Pressable>
       </Column>
       <Spacer size={16} />
     </BottomSheet>
