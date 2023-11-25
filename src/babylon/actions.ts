@@ -1,4 +1,4 @@
-import {useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import Toast from 'react-native-simple-toast';
 import {throttle} from 'lodash';
 import {Matrix, Mesh, Vector3} from '@babylonjs/core';
@@ -102,6 +102,47 @@ export const useRelocationDice = () => {
       });
     }
   };
+};
+
+export const useDiceCountChanged = () => {
+  const {scene, diceMesh, diceCount} = useBabylonStore();
+
+  useEffect(() => {
+    if (diceMesh === null || scene === null) {
+      return;
+    }
+
+    // 기존에 생성된 주사위를 모두 제거합니다.
+    scene.meshes
+      .filter(mesh => mesh.name.startsWith('dice'))
+      .forEach(mesh => {
+        mesh.dispose();
+      });
+
+    // 주사위를 diceCount 수에 맞게 새로 생성합니다.
+    for (let i = 0; i < diceCount; i++) {
+      diceMesh.position = new Vector3(0, 0.5, 40);
+      const cloneDice = diceMesh.clone(`dice${i}`, null, true);
+      // 위치 겹치면 안 보이는 이슈 있어서, 서로 다르게 해주어야함
+      if (cloneDice) {
+        if (i === 0) {
+          cloneDice.position = new Vector3(0, 0.5, 0);
+        }
+        if (i === 1) {
+          cloneDice.position = new Vector3(1.5, 0.5, -1.5);
+        }
+        if (i === 2) {
+          cloneDice.position = new Vector3(1.5, 0.5, 1.5);
+        }
+        if (i === 3) {
+          cloneDice.position = new Vector3(-1.5, 0.5, 1.5);
+        }
+        if (i === 4) {
+          cloneDice.position = new Vector3(-1.5, 0.5, -1.5);
+        }
+      }
+    }
+  }, [diceCount, diceMesh, scene]);
 };
 
 const getDiceValue = (dice: Mesh) => {

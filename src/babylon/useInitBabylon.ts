@@ -4,6 +4,7 @@ import {useEffect} from 'react';
 import {useLoadDice} from './useLoadDice';
 import {useInitCamera} from './useInitCamera';
 import {usePhysicsEngine} from './usePhysicsEngine';
+import {useDiceCountChanged} from './actions';
 
 export const useInitBabylon = () => {
   const engine = useEngine();
@@ -16,4 +17,5 @@ export const useInitBabylon = () => {
 
   useLoadDice();
   useInitCamera();
+  useDiceCountChanged();
 };

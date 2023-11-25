@@ -1,15 +1,7 @@
-import React, {
-  FunctionComponent,
-  useEffect,
-  useRef,
-  useState,
-  useMemo,
-  useCallback,
-} from 'react';
-import {View, ViewProps, Image, Pressable, Text} from 'react-native';
+import React, {FunctionComponent, useEffect, useRef} from 'react';
+import {View, ViewProps, Image, Pressable} from 'react-native';
 import {EngineView} from '@babylonjs/react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
-import {Row, EdgeInsets, Spacer} from '@wayne-kim/react-native-layout';
 
 import '@babylonjs/loaders/glTF';
 import {Mesh, MeshBuilder, PhysicsImpostor, Vector3} from '@babylonjs/core';
@@ -19,6 +11,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useBabylonStore} from './stores';
 import {useInitBabylon} from './babylon/useInitBabylon';
 import {useRelocationDice, useShakeDice} from './babylon/actions';
+import {SettingBottomSheet} from './components/SettingBottomSheet';
 
 const setWallTransparency = (mesh: Mesh) => {
   // Set the visibility of the wall
@@ -26,29 +19,16 @@ const setWallTransparency = (mesh: Mesh) => {
 };
 
 const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
-  const {scene, camera, diceMesh} = useBabylonStore();
-  const [diceCount, setDiceCount] = useState<number>(5);
-  const maxDiceCount = 5;
-  const minDiceCount = 1;
+  const {scene, camera} = useBabylonStore();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['1%', '80%'], []);
+
   const insets = useSafeAreaInsets();
 
   useInitBabylon();
 
   const shakeDice = useShakeDice();
   const relocationDice = useRelocationDice();
-
-  const handleSheetChanges = useCallback((index: number) => {
-    if (bottomSheetRef.current === null) {
-      return;
-    }
-
-    if (index === 0) {
-      bottomSheetRef.current.close();
-    }
-  }, []);
 
   useEffect(() => {
     if (scene) {
@@ -133,48 +113,7 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
     }
   }, [scene]);
 
-  useEffect(() => {
-    if (diceMesh === null) {
-      return;
-    }
-
-    if (scene) {
-      // 기존에 생성된 주사위를 모두 제거합니다.
-      scene.meshes
-        .filter(mesh => mesh.name.startsWith('dice'))
-        .forEach(mesh => {
-          mesh.dispose();
-        });
-
-      // 주사위를 diceCount 수에 맞게 새로 생성합니다.
-      for (let i = 0; i < diceCount; i++) {
-        diceMesh.position = new Vector3(0, 0.5, 40);
-        const cloneDice = diceMesh.clone(`dice${i}`, null, true);
-        // 위치 겹치면 안 보이는 이슈 있어서, 서로 다르게 해주어야함
-        if (cloneDice) {
-          if (i === 0) {
-            cloneDice.position = new Vector3(0, 0.5, 0);
-          }
-          if (i === 1) {
-            cloneDice.position = new Vector3(1.5, 0.5, -1.5);
-          }
-          if (i === 2) {
-            cloneDice.position = new Vector3(1.5, 0.5, 1.5);
-          }
-          if (i === 3) {
-            cloneDice.position = new Vector3(-1.5, 0.5, 1.5);
-          }
-          if (i === 4) {
-            cloneDice.position = new Vector3(-1.5, 0.5, -1.5);
-          }
-        }
-      }
-    }
-  }, [diceCount, diceMesh, scene]);
-
-  if (camera === null) {
-    return null;
-  }
+  console.log('🐞??', camera);
 
   return (
     <>
@@ -232,39 +171,7 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
             </Pressable>
           </View>
 
-          <BottomSheet
-            ref={bottomSheetRef}
-            index={-1}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}>
-            <Row edgeInsets={EdgeInsets.all(16)}>
-              <Row alignItems={'center'} style={{width: 100, height: 50}}>
-                <Text style={{fontSize: 16}}>주사위 수</Text>
-                <Spacer size={16} />
-                <Text style={{fontSize: 16}}>{diceCount}</Text>
-                <Spacer size={16} />
-                <Pressable
-                  style={{backgroundColor: 'black', padding: 8}}
-                  onPress={() => {
-                    if (diceCount < maxDiceCount) {
-                      setDiceCount(diceCount + 1);
-                    }
-                  }}>
-                  <Text style={{color: 'white'}}>UP</Text>
-                </Pressable>
-                <Spacer size={8} />
-                <Pressable
-                  style={{backgroundColor: 'black', padding: 8}}
-                  onPress={() => {
-                    if (diceCount > minDiceCount) {
-                      setDiceCount(diceCount - 1);
-                    }
-                  }}>
-                  <Text style={{color: 'white'}}>Down</Text>
-                </Pressable>
-              </Row>
-            </Row>
-          </BottomSheet>
+          <SettingBottomSheet />
         </View>
       </View>
     </>
