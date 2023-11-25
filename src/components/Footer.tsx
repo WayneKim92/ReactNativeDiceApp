@@ -20,7 +20,7 @@ export function Footer() {
       }}>
       <Pressable onPress={relocationDice}>
         <Image
-          source={require('@assets/images/reset.png')}
+          source={require('@assets/images/relocation.png')}
           style={{height: 50, width: 50}}
         />
       </Pressable>
