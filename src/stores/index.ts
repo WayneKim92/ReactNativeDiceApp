@@ -14,8 +14,6 @@ interface BabylonStore {
   setCamera: (camera: Nullable<Camera>) => void;
   diceMesh: Nullable<Mesh>;
   setDiceMesh: (diceMesh: Nullable<Mesh>) => void;
-  diceCount: number;
-  setDiceCount: (diceCount: number) => void;
 }
 export const useBabylonStore = create<BabylonStore>(set => ({
   engine: null,
@@ -26,8 +24,21 @@ export const useBabylonStore = create<BabylonStore>(set => ({
   setCamera: camera => set({camera}),
   diceMesh: null,
   setDiceMesh: diceMesh => set({diceMesh}),
+}));
+
+interface AppStore {
+  diceCount: number;
+  setDiceCount: (diceCount: number) => void;
+  history: Object;
+  setHistory: (count: number) => void;
+}
+// @ts-ignore
+export const useAppStore = create<AppStore>(set => ({
   diceCount: minDiceCount,
   setDiceCount: diceCount => set({diceCount}),
+  history: [],
+  setHistory: count =>
+    set({history: {...useAppStore.getState().history, [Date.now()]: count}}),
 }));
 
 interface BottomSheetStore {

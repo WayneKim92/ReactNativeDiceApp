@@ -1,18 +1,24 @@
 import React, {useCallback, useEffect, useMemo, useRef} from 'react';
-import {Pressable, Text} from 'react-native';
+import {Pressable, ScrollView, Text} from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
-import {EdgeInsets, Row, Spacer} from '@wayne-kim/react-native-layout';
+import {Column, EdgeInsets, Row, Spacer} from '@wayne-kim/react-native-layout';
 import {maxDiceCount, minDiceCount} from '../babylon/consts';
-import {useBabylonStore, useBottomSheetStore} from '../stores';
+import {useAppStore, useBottomSheetStore} from '../stores';
 import {setLatestDiceCount} from '../storages/KeyValueStorage';
 import Toast from 'react-native-simple-toast';
 import {throttle} from 'lodash';
+import {koreanDateFormat} from '../utils/date';
 
 export function SettingBottomSheet() {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '80%'], []);
-  const {diceCount, setDiceCount} = useBabylonStore();
+  const {diceCount, setDiceCount, history} = useAppStore();
   const {setSettingBottomSheet} = useBottomSheetStore();
+
+  const countHistory = Object.keys(history).map(key => ({
+    key,
+    value: history[key],
+  }));
 
   const upDiceCount = throttle(
     () => {
@@ -74,7 +80,7 @@ export function SettingBottomSheet() {
       index={-1}
       snapPoints={snapPoints}
       onChange={handleSheetChanges}>
-      <Row edgeInsets={EdgeInsets.all(16)}>
+      <Row edgeInsets={EdgeInsets.horizontal(16)}>
         <Row alignItems={'center'} style={{width: 100, height: 50}}>
           <Text style={{fontSize: 16}}>주사위 수</Text>
           <Spacer size={16} />
@@ -93,6 +99,39 @@ export function SettingBottomSheet() {
           </Pressable>
         </Row>
       </Row>
+      <Spacer size={4} />
+      <Column edgeInsets={EdgeInsets.horizontal(16)} style={{flex: 1}}>
+        <Text style={{fontSize: 16}}>주사위 점수 기록</Text>
+        <Spacer size={8} />
+        <ScrollView
+          contentContainerStyle={{
+            backgroundColor: '#D3D3D3',
+            flex: 1,
+            borderRadius: 8,
+            paddingVertical: 8,
+            paddingHorizontal: 16,
+          }}>
+          {countHistory.map(({key, value}) => (
+            <Column
+              key={key}
+              style={{
+                borderBottomWidth: 1.5,
+                borderBottomColor: 'white',
+              }}>
+              <Row>
+                <Text style={{fontSize: 16}}>
+                  {koreanDateFormat(new Date(Number(key)))}
+                </Text>
+                <Spacer size={16} />
+                <Text style={{fontSize: 16}}>{value}</Text>
+              </Row>
+
+              <Spacer size={4} />
+            </Column>
+          ))}
+        </ScrollView>
+      </Column>
+      <Spacer size={16} />
     </BottomSheet>
   );
 }

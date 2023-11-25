@@ -1,5 +1,5 @@
 import {useEngine} from '@babylonjs/react-native';
-import {useBabylonStore} from '../stores';
+import {useAppStore, useBabylonStore} from '../stores';
 import {useEffect} from 'react';
 import {useLoadDice} from './useLoadDice';
 import {useInitCamera} from './useInitCamera';
@@ -11,7 +11,8 @@ import {getLatestDiceCount} from '../storages/KeyValueStorage';
 
 export const useInitBabylon = () => {
   const engine = useEngine();
-  const {setEngine, setDiceCount} = useBabylonStore();
+  const {setEngine} = useBabylonStore();
+  const {setDiceCount} = useAppStore();
 
   useEffect(() => {
     setEngine(engine);

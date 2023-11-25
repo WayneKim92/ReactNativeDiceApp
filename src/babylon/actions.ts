@@ -2,12 +2,14 @@ import {useEffect, useRef} from 'react';
 import Toast from 'react-native-simple-toast';
 import {throttle} from 'lodash';
 import {Matrix, Mesh, Vector3} from '@babylonjs/core';
-import {useBabylonStore} from '../stores';
+import {useAppStore, useBabylonStore} from '../stores';
 import {force} from './consts';
 import {randomNegativeOrPositiveOne} from './utils';
+import {setDiceCountHistory} from '../storages/KeyValueStorage';
 
 export const useShowTotalCount = () => {
   const getDiceValue = useGetDiceValue();
+  const {setHistory} = useAppStore();
 
   return throttle(() => {
     const totalCount = getDiceValue();
@@ -15,6 +17,9 @@ export const useShowTotalCount = () => {
       backgroundColor: 'white',
       textColor: 'black',
     });
+    setDiceCountHistory(totalCount as number).catch(() => {});
+    // TODO: 나중에 생각해보자. 기록만하고 재부팅 시에 보여주지는 않고 있음.
+    setHistory(totalCount);
   }, 3000);
 };
 
@@ -124,7 +129,8 @@ export const useRelocationDice = () => {
 };
 
 export const useDiceCountChanged = () => {
-  const {scene, diceMesh, diceCount} = useBabylonStore();
+  const {scene, diceMesh} = useBabylonStore();
+  const {diceCount} = useAppStore();
 
   useEffect(() => {
     if (diceMesh === null || scene === null) {
