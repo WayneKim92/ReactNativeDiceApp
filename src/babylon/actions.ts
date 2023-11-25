@@ -7,9 +7,17 @@ import {force} from './consts';
 import {randomNegativeOrPositiveOne} from './utils';
 import {setDiceCountHistory} from '../storages/KeyValueStorage';
 
+const useRecordHistory = () => {
+  const {setHistory} = useAppStore();
+
+  return (totalCount: number) => {
+    setHistory(totalCount);
+  };
+};
+
 export const useShowTotalCount = () => {
   const getDiceValue = useGetDiceValue();
-  const {setHistory} = useAppStore();
+  const recordHistory = useRecordHistory();
 
   return throttle(() => {
     const totalCount = getDiceValue();
@@ -19,7 +27,7 @@ export const useShowTotalCount = () => {
     });
     setDiceCountHistory(totalCount as number).catch(() => {});
     // TODO: 나중에 생각해보자. 기록만하고 재부팅 시에 보여주지는 않고 있음.
-    setHistory(totalCount);
+    recordHistory(totalCount);
   }, 3000);
 };
 
@@ -68,9 +76,9 @@ export const useShakeDice = () => {
 const useGetDiceValue = () => {
   const {scene} = useBabylonStore();
 
-  return () => {
+  return (): number => {
     if (scene === null || scene === undefined) {
-      return;
+      return 0;
     }
     // 전체 개수 보여주기
     const dices = scene.meshes.filter(mesh => mesh.name.startsWith('dice'));
@@ -88,6 +96,7 @@ export const useRelocationDice = () => {
   const {scene} = useBabylonStore();
 
   const getDiceValue = useGetDiceValue();
+  const recordHistory = useRecordHistory();
 
   return () => {
     if (scene) {
@@ -121,10 +130,12 @@ export const useRelocationDice = () => {
       });
     }
 
-    Toast.show(String(getDiceValue()), Toast.SHORT, {
+    const totlaCount = getDiceValue();
+    Toast.show(String(totlaCount), Toast.SHORT, {
       backgroundColor: 'white',
       textColor: 'black',
     });
+    recordHistory(totlaCount);
   };
 };
 
