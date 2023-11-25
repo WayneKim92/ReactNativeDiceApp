@@ -14,10 +14,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babylonjs/core": "^6.30.0",
-    "@babylonjs/loaders": "^6.30.0",
-    "@babylonjs/react-native": "^1.7.5",
-    "@babylonjs/react-native-iosandroid-0-71": "^1.7.5",
+    "@babylonjs/core": "6.31.0",
+    "@babylonjs/loaders": "6.31.0",
+    "@babylonjs/react-native": "1.7.5",
+    "@babylonjs/react-native-iosandroid-0-71": "1.7.5",
     "@gorhom/bottom-sheet": "^4",
     "@react-native-async-storage/async-storage": "^1.19.8",
     "@wayne-kim/react-native-layout": "^0.3.0",
