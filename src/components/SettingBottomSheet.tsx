@@ -1,5 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useRef} from 'react';
-import {Pressable, ScrollView, Text} from 'react-native';
+import {NativeViewGestureHandler} from 'react-native-gesture-handler';
+
+import {Pressable, Text, View} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {Column, EdgeInsets, Row, Spacer} from '@wayne-kim/react-native-layout';
 import {maxDiceCount, minDiceCount} from '../babylon/consts';
@@ -103,10 +106,12 @@ export function SettingBottomSheet() {
       <Column edgeInsets={EdgeInsets.horizontal(16)} style={{flex: 1}}>
         <Text style={{fontSize: 16}}>주사위 점수 기록</Text>
         <Spacer size={8} />
+        {/*<NativeViewGestureHandler disallowInterruption={true}>*/}
         <ScrollView
+          style={{flex: 1}}
           contentContainerStyle={{
+            flexGrow: 1,
             backgroundColor: '#D3D3D3',
-            flex: 1,
             borderRadius: 8,
             paddingVertical: 8,
             paddingHorizontal: 16,
@@ -130,6 +135,11 @@ export function SettingBottomSheet() {
             </Column>
           ))}
         </ScrollView>
+        {/*</NativeViewGestureHandler>*/}
+        <Spacer size={16} />
+        <View>
+          <Text>요청</Text>
+        </View>
       </Column>
       <Spacer size={16} />
     </BottomSheet>
