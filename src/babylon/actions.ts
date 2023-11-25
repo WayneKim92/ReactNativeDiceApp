@@ -6,6 +6,18 @@ import {useBabylonStore} from '../stores';
 import {force} from './consts';
 import {randomNegativeOrPositiveOne} from './utils';
 
+export const useShowTotalCount = () => {
+  const getDiceValue = useGetDiceValue();
+
+  return throttle(() => {
+    const totalCount = getDiceValue();
+    Toast.show(String(totalCount), Toast.SHORT, {
+      backgroundColor: 'white',
+      textColor: 'black',
+    });
+  }, 3000);
+};
+
 export const useShakeDice = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const {scene} = useBabylonStore();
@@ -46,29 +58,29 @@ export const useShakeDice = () => {
   };
 };
 
-export const useShowTotalCount = () => {
+const useGetDiceValue = () => {
   const {scene} = useBabylonStore();
 
-  return throttle(() => {
+  return () => {
     if (scene === null || scene === undefined) {
       return;
     }
     // 전체 개수 보여주기
     const dices = scene.meshes.filter(mesh => mesh.name.startsWith('dice'));
 
-    const counts = dices.map(dice => getDiceValue(dice as Mesh));
-    // @ts-ignore
-    const totalCount = counts.reduce((a: number, c) => a + c, 0);
-
-    Toast.show(String(totalCount), Toast.SHORT, {
-      backgroundColor: 'white',
-      textColor: 'black',
-    });
-  }, 3000);
+    return (
+      dices
+        .map(dice => getDiceValue(dice as Mesh))
+        // @ts-ignore
+        .reduce((a: number, c) => a + c, 0)
+    );
+  };
 };
 
 export const useRelocationDice = () => {
   const {scene} = useBabylonStore();
+
+  const getDiceValue = useGetDiceValue();
 
   return () => {
     if (scene) {
@@ -101,6 +113,11 @@ export const useRelocationDice = () => {
         }
       });
     }
+
+    Toast.show(String(getDiceValue()), Toast.SHORT, {
+      backgroundColor: 'white',
+      textColor: 'black',
+    });
   };
 };
 
