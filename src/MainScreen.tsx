@@ -9,6 +9,7 @@ import {useInitBabylon} from './babylon/useInitBabylon';
 import {useRelocationDice, useShakeDice} from './babylon/actions';
 import {SettingBottomSheet} from './components/SettingBottomSheet';
 import {Header} from './components/Header';
+import {Footer} from './components/Footer';
 
 const setWallTransparency = (mesh: Mesh) => {
   // Set the visibility of the wall
@@ -112,31 +113,7 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
           <EngineView camera={camera} displayFrameRate={true} />
 
           <Header />
-          <View
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              padding: 16,
-              flexGrow: 1,
-              width: '100%',
-              alignContent: 'center',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            <Pressable onPress={relocationDice}>
-              <Image
-                source={require('../assets/images/reset.png')}
-                style={{height: 50, width: 50}}
-              />
-            </Pressable>
-            <Pressable onPress={shakeDice}>
-              <Image
-                source={require('../assets/images/shake.png')}
-                style={{height: 50, width: 50}}
-              />
-            </Pressable>
-          </View>
-
+          <Footer />
           <SettingBottomSheet />
         </View>
       </View>
