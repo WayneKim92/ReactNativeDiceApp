@@ -11,7 +11,7 @@ export const setLatestDiceCount = async (count: number) => {
       String(count),
     );
   } catch (e) {
-    console.log('🐞e');
+    console.log('🐞e', e);
   }
 };
 
@@ -22,6 +22,6 @@ export const getLatestDiceCount = async () => {
     );
     return Number(latestDiceCount);
   } catch (e) {
-    console.log('🐞e');
+    console.log('🐞e', e);
   }
 };

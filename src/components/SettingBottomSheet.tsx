@@ -5,12 +5,54 @@ import {EdgeInsets, Row, Spacer} from '@wayne-kim/react-native-layout';
 import {maxDiceCount, minDiceCount} from '../babylon/consts';
 import {useBabylonStore, useBottomSheetStore} from '../stores';
 import {setLatestDiceCount} from '../storages/KeyValueStorage';
+import Toast from 'react-native-simple-toast';
+import {throttle} from 'lodash';
 
 export function SettingBottomSheet() {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '80%'], []);
   const {diceCount, setDiceCount} = useBabylonStore();
   const {setSettingBottomSheet} = useBottomSheetStore();
+
+  const upDiceCount = throttle(
+    () => {
+      if (diceCount < maxDiceCount) {
+        const newDiceCount = diceCount + 1;
+        setDiceCount(newDiceCount);
+
+        if (setLatestDiceCount) {
+          setLatestDiceCount(newDiceCount).catch(() => {});
+        }
+      } else {
+        Toast.show(
+          `주사위는 최대 ${maxDiceCount}개까지만 지원합니다.`,
+          Toast.SHORT,
+        );
+      }
+    },
+    2000,
+    {trailing: false},
+  );
+
+  const downDiceCount = throttle(
+    () => {
+      if (diceCount > minDiceCount) {
+        const newDiceCount = diceCount - 1;
+        setDiceCount(newDiceCount);
+
+        if (setLatestDiceCount) {
+          setLatestDiceCount(newDiceCount).catch(() => {});
+        }
+      } else {
+        Toast.show(
+          `주사위는 최소 ${minDiceCount}개까지만 지원합니다.`,
+          Toast.SHORT,
+        );
+      }
+    },
+    2000,
+    {trailing: false},
+  );
 
   const handleSheetChanges = useCallback((index: number) => {
     if (bottomSheetRef.current === null) {
@@ -40,31 +82,13 @@ export function SettingBottomSheet() {
           <Spacer size={16} />
           <Pressable
             style={{backgroundColor: 'black', padding: 8}}
-            onPress={() => {
-              if (diceCount < maxDiceCount) {
-                const newDiceCount = diceCount + 1;
-                setDiceCount(newDiceCount);
-
-                if (setLatestDiceCount) {
-                  setLatestDiceCount(newDiceCount).catch(() => {});
-                }
-              }
-            }}>
+            onPress={upDiceCount}>
             <Text style={{color: 'white'}}>UP</Text>
           </Pressable>
           <Spacer size={8} />
           <Pressable
             style={{backgroundColor: 'black', padding: 8}}
-            onPress={() => {
-              if (diceCount > minDiceCount) {
-                const newDiceCount = diceCount - 1;
-                setDiceCount(newDiceCount);
-
-                if (setLatestDiceCount) {
-                  setLatestDiceCount(newDiceCount).catch(() => {});
-                }
-              }
-            }}>
+            onPress={downDiceCount}>
             <Text style={{color: 'white'}}>Down</Text>
           </Pressable>
         </Row>
