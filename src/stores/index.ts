@@ -31,6 +31,7 @@ interface AppStore {
   setDiceCount: (diceCount: number) => void;
   history: Object;
   setHistory: (count: number) => void;
+  clearHistory: () => void;
 }
 // @ts-ignore
 export const useAppStore = create<AppStore>(set => ({
@@ -39,6 +40,7 @@ export const useAppStore = create<AppStore>(set => ({
   history: [],
   setHistory: count =>
     set({history: {...useAppStore.getState().history, [Date.now()]: count}}),
+  clearHistory: () => set({history: {}}),
 }));
 
 interface BottomSheetStore {

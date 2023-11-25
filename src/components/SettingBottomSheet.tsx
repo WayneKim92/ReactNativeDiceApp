@@ -14,7 +14,7 @@ import {koreanDateFormat} from '../utils/date';
 export function SettingBottomSheet() {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '80%'], []);
-  const {diceCount, setDiceCount, history} = useAppStore();
+  const {diceCount, setDiceCount, history, clearHistory} = useAppStore();
   const {setSettingBottomSheet} = useBottomSheetStore();
 
   const countHistory = Object.keys(history).map(key => ({
@@ -103,7 +103,15 @@ export function SettingBottomSheet() {
       </Row>
       <Spacer size={4} />
       <Column edgeInsets={EdgeInsets.horizontal(16)} style={{flex: 1}}>
-        <Text style={{fontSize: 16}}>주사위 점수 기록</Text>
+        <Row alignItems={'center'}>
+          <Text style={{fontSize: 16}}>주사위 점수 기록</Text>
+          <Spacer flex={1} />
+          <Pressable
+            style={{backgroundColor: 'black', padding: 8}}
+            onPress={clearHistory}>
+            <Text style={{color: 'white'}}>초기화</Text>
+          </Pressable>
+        </Row>
         <Spacer size={8} />
         {/*<NativeViewGestureHandler disallowInterruption={true}>*/}
         <ScrollView
