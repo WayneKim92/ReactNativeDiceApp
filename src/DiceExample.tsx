@@ -35,6 +35,14 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 // @ts-ignore
 global.CANNON = cannon;
 
+import {ArcRotateCameraPointersInput} from '@babylonjs/core';
+class CustomArcRotateCameraPointersInput extends ArcRotateCameraPointersInput {
+  onTouch(): void {
+    // 아무 것도 하지 않기
+    return;
+  }
+}
+
 function randomNegativeOrPositiveOne() {
   return Math.floor(Math.random() * 2) === 0 ? -1 : 1;
 }
@@ -216,13 +224,17 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
 
       // set the active camera
       const activeCamera = scene.activeCamera as ArcRotateCamera;
+      setCamera(activeCamera);
+      // 카메라 위치
       activeCamera.alpha = Math.PI * 0.5;
       activeCamera.beta = Math.PI * 0.1;
       activeCamera.radius = 15;
-      activeCamera.target = new Vector3(0, 0, 0); // 카메라가 바라보는 대상을 설정합니다.
-      activeCamera.lockedTarget = new Vector3(0, 0, 0); // 카메라가 항상 이 대상을 바라보도록 합니다.
-      // activeCamera.inputs.clear();
-      setCamera(activeCamera);
+      // 확대 축소 범위 지정
+      activeCamera.upperRadiusLimit = 20;
+      activeCamera.lowerRadiusLimit = 5;
+      // 카메라 회전 기능만 제거
+      activeCamera.inputs.remove(activeCamera.inputs.attached.pointers);
+      activeCamera.inputs.add(new CustomArcRotateCameraPointersInput());
 
       // Add a ground to the new scene
       const ground = MeshBuilder.CreateGround(
