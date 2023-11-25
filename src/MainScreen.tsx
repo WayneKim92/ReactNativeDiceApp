@@ -101,7 +101,9 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
   const engine = useEngine();
   const [camera, setCamera] = useState<Camera>();
   const [scene, setScene] = useState<Scene>();
-  const [diceCount, setDiceCount] = useState<number>(4);
+  const [diceCount, setDiceCount] = useState<number>(5);
+  const maxDiceCount = 5;
+  const minDiceCount = 1;
   const [force] = useState<number>(5);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -178,15 +180,18 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
           if (mesh.physicsImpostor) {
             // Reset the position of the dice
             if (i === 0) {
-              mesh.position = new Vector3(1.5, 0.5, -1.5);
+              mesh.position = new Vector3(0, 0.5, 0);
             }
             if (i === 1) {
-              mesh.position = new Vector3(1.5, 0.5, 1.5);
+              mesh.position = new Vector3(1.5, 0.5, -1.5);
             }
             if (i === 2) {
-              mesh.position = new Vector3(-1.5, 0.5, 1.5);
+              mesh.position = new Vector3(1.5, 0.5, 1.5);
             }
             if (i === 3) {
+              mesh.position = new Vector3(-1.5, 0.5, 1.5);
+            }
+            if (i === 4) {
               mesh.position = new Vector3(-1.5, 0.5, -1.5);
             }
 
@@ -380,15 +385,18 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
         // 위치 겹치면 안 보이는 이슈 있어서, 서로 다르게 해주어야함
         if (cloneDice) {
           if (i === 0) {
-            cloneDice.position = new Vector3(1.5, 0.5, -1.5);
+            cloneDice.position = new Vector3(0, 0.5, 0);
           }
           if (i === 1) {
-            cloneDice.position = new Vector3(1.5, 0.5, 1.5);
+            cloneDice.position = new Vector3(1.5, 0.5, -1.5);
           }
           if (i === 2) {
-            cloneDice.position = new Vector3(-1.5, 0.5, 1.5);
+            cloneDice.position = new Vector3(1.5, 0.5, 1.5);
           }
           if (i === 3) {
+            cloneDice.position = new Vector3(-1.5, 0.5, 1.5);
+          }
+          if (i === 4) {
             cloneDice.position = new Vector3(-1.5, 0.5, -1.5);
           }
         }
@@ -466,7 +474,7 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
                 <Pressable
                   style={{backgroundColor: 'black', padding: 8}}
                   onPress={() => {
-                    if (diceCount < 4) {
+                    if (diceCount < maxDiceCount) {
                       setDiceCount(diceCount + 1);
                     }
                   }}>
@@ -476,7 +484,7 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
                 <Pressable
                   style={{backgroundColor: 'black', padding: 8}}
                   onPress={() => {
-                    if (diceCount > 1) {
+                    if (diceCount > minDiceCount) {
                       setDiceCount(diceCount - 1);
                     }
                   }}>
@@ -491,8 +499,8 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
   );
 };
 
-const DiceExample = () => {
+const MainScreen = () => {
   return <EngineScreen style={{flex: 1}} />;
 };
 
-export default DiceExample;
+export default MainScreen;
