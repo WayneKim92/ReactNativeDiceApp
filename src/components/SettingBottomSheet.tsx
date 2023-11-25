@@ -1,14 +1,14 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import {Pressable, Text} from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {EdgeInsets, Row, Spacer} from '@wayne-kim/react-native-layout';
 import {maxDiceCount, minDiceCount} from '../babylon/consts';
-import {useBottomSheetStore} from '../stores';
+import {useBabylonStore, useBottomSheetStore} from '../stores';
 
 export function SettingBottomSheet() {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const [diceCount, setDiceCount] = useState<number>(5);
   const snapPoints = useMemo(() => ['1%', '80%'], []);
+  const {diceCount, setDiceCount} = useBabylonStore();
   const {setSettingBottomSheet} = useBottomSheetStore();
 
   const handleSheetChanges = useCallback((index: number) => {

@@ -1,12 +1,11 @@
 import React, {FunctionComponent, useEffect} from 'react';
-import {View, ViewProps, Image, Pressable} from 'react-native';
+import {View, ViewProps} from 'react-native';
 import {EngineView} from '@babylonjs/react-native';
 
 import '@babylonjs/loaders/glTF';
 import {Mesh, MeshBuilder, PhysicsImpostor, Vector3} from '@babylonjs/core';
 import {useBabylonStore} from './stores';
 import {useInitBabylon} from './babylon/useInitBabylon';
-import {useRelocationDice, useShakeDice} from './babylon/actions';
 import {SettingBottomSheet} from './components/SettingBottomSheet';
 import {Header} from './components/Header';
 import {Footer} from './components/Footer';
@@ -20,8 +19,6 @@ const EngineScreen: FunctionComponent<ViewProps> = (props: ViewProps) => {
   const {scene, camera} = useBabylonStore();
 
   useInitBabylon();
-  const shakeDice = useShakeDice();
-  const relocationDice = useRelocationDice();
 
   useEffect(() => {
     if (scene) {
