@@ -112,8 +112,12 @@ export function SettingBottomSheet() {
             <Text style={{color: 'white'}}>초기화</Text>
           </Pressable>
         </Row>
-        <Spacer size={8} />
         {/*<NativeViewGestureHandler disallowInterruption={true}>*/}
+        <Row edgeInsets={EdgeInsets.fromVH(4, 8)}>
+          <Text style={{fontSize: 16}}>시간</Text>
+          <Spacer flex={1} />
+          <Text style={{fontSize: 16}}>점수</Text>
+        </Row>
         <ScrollView
           style={{flex: 1}}
           contentContainerStyle={{
@@ -134,7 +138,7 @@ export function SettingBottomSheet() {
                 <Text style={{fontSize: 16}}>
                   {koreanDateFormat(new Date(Number(key)))}
                 </Text>
-                <Spacer size={16} />
+                <Spacer flex={1} />
                 <Text style={{fontSize: 16}}>{value}</Text>
               </Row>
 
