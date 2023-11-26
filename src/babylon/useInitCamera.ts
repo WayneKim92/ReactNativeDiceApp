@@ -3,7 +3,9 @@ import {
   ArcRotateCameraPointersInput,
   Color3,
   MeshBuilder,
+  Nullable,
   PhysicsImpostor,
+  PointerTouch,
   StandardMaterial,
 } from '@babylonjs/core';
 import {ArcRotateCamera} from '@babylonjs/core/Cameras/arcRotateCamera';
@@ -53,14 +55,32 @@ export const useInitCamera = () => {
 };
 
 class CustomArcRotateCameraPointersInput extends ArcRotateCameraPointersInput {
+  pinchPrecision = 250;
   onTouch(): void {
-    // 아무 것도 하지 않기
     return;
   }
 
   onDoubleTap() {
-    // super.onDoubleTap();
-
     return;
+  }
+
+  onMultiTouch(
+    pointA: Nullable<PointerTouch>,
+    pointB: Nullable<PointerTouch>,
+    previousPinchSquaredDistance: number,
+    pinchSquaredDistance: number,
+    _previousMultiTouchPanPosition: Nullable<PointerTouch>,
+    _multiTouchPanPosition: Nullable<PointerTouch>,
+  ) {
+    super.onMultiTouch(
+      pointA,
+      pointB,
+      // 확대|축소
+      previousPinchSquaredDistance,
+      pinchSquaredDistance,
+      // 멀티 터치 위치 안 사용하기 위해 null 처리
+      null,
+      null,
+    );
   }
 }
