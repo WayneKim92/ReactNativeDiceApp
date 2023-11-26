@@ -57,4 +57,10 @@ class CustomArcRotateCameraPointersInput extends ArcRotateCameraPointersInput {
     // 아무 것도 하지 않기
     return;
   }
+
+  onDoubleTap() {
+    // super.onDoubleTap();
+
+    return;
+  }
 }

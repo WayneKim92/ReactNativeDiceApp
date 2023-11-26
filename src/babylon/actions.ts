@@ -40,23 +40,31 @@ export const useShakeDice = () => {
 
   return () => {
     if (scene) {
+      const xf = directionRef.current * (Math.random() * 2);
+      const yf = 1.5 + directionRef.current * (Math.random() * 2);
+      const zf = directionRef.current * (Math.random() * 2);
+
       scene.meshes.map(mesh => {
         if (mesh.name.startsWith('dice')) {
           if (mesh.physicsImpostor) {
-            const forceDirection = new Vector3(
-              1 + Math.random() * force * directionRef.current,
-              1 + Math.random() * force,
-              1 + Math.random() * force * directionRef.current,
-            );
-            directionRef.current = directionRef.current * -1;
-
-            if (mesh.physicsImpostor === null) {
-              return;
-            }
-
+            // 랜덤한 방향과 크기의 힘을 적용하여 주사위를 회전하고 흔들립니다.
+            const forceDirection = new Vector3(xf, yf, zf);
+            // 힘을 적용하는 위치를 랜덤하게 설정합니다.
+            const forcePosition = mesh
+              .getAbsolutePosition()
+              .add(
+                new Vector3(
+                  (Math.random() - 0.5) *
+                    mesh.getBoundingInfo().boundingBox.extendSize.x,
+                  (Math.random() - 0.5) *
+                    mesh.getBoundingInfo().boundingBox.extendSize.y,
+                  (Math.random() - 0.5) *
+                    mesh.getBoundingInfo().boundingBox.extendSize.z,
+                ),
+              );
             mesh.physicsImpostor.applyImpulse(
               forceDirection.scale(force),
-              mesh.getAbsolutePosition(),
+              forcePosition,
             );
           }
         }
@@ -69,6 +77,8 @@ export const useShakeDice = () => {
           2000,
         );
       });
+
+      directionRef.current = directionRef.current * -1;
     }
   };
 };
