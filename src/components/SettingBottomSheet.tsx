@@ -10,6 +10,7 @@ import {setLatestDiceCount} from '../storages/KeyValueStorage';
 import Toast from 'react-native-simple-toast';
 import {throttle} from 'lodash';
 import {koreanDateFormat} from '../utils/date';
+import {DevAdTest} from './Dev';
 
 export function SettingBottomSheet() {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -147,6 +148,8 @@ export function SettingBottomSheet() {
           ))}
         </ScrollView>
         {/*</NativeViewGestureHandler>*/}
+        {/* 광고 테스트 버튼 */}
+        <DevAdTest />
         <Spacer size={16} />
         <Pressable
           onPress={() =>
