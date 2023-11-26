@@ -10,9 +10,13 @@ import {
 } from '@babylonjs/core';
 import {ArcRotateCamera} from '@babylonjs/core/Cameras/arcRotateCamera';
 import {useBabylonStore} from '../stores';
+import {useShakeDice} from './actions';
 
 export const useInitCamera = () => {
   const {scene, setCamera} = useBabylonStore();
+  const shakeDice = useShakeDice();
+  const customArcRotateCameraPointersInput =
+    new CustomArcRotateCameraPointersInput(shakeDice);
 
   useEffect(() => {
     if (scene) {
@@ -31,7 +35,7 @@ export const useInitCamera = () => {
       activeCamera.lowerRadiusLimit = 5;
       // 카메라 회전 기능만 제거
       activeCamera.inputs.remove(activeCamera.inputs.attached.pointers);
-      activeCamera.inputs.add(new CustomArcRotateCameraPointersInput());
+      activeCamera.inputs.add(customArcRotateCameraPointersInput);
 
       // Add a ground to the new scene
       const ground = MeshBuilder.CreateGround(
@@ -56,7 +60,20 @@ export const useInitCamera = () => {
 
 class CustomArcRotateCameraPointersInput extends ArcRotateCameraPointersInput {
   pinchPrecision = 250;
+  onShakeDice: () => void;
+
+  constructor(onShakeDice: () => void) {
+    super();
+    this.onShakeDice = onShakeDice;
+  }
+
   onTouch(): void {
+    this.onShakeDice();
+    return;
+  }
+
+  onButtonDown() {
+    this.onShakeDice();
     return;
   }
 
