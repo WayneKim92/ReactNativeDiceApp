@@ -15,8 +15,6 @@ import {useShakeDice} from './actions';
 export const useInitCamera = () => {
   const {scene, setCamera} = useBabylonStore();
   const shakeDice = useShakeDice();
-  const customArcRotateCameraPointersInput =
-    new CustomArcRotateCameraPointersInput(shakeDice);
 
   useEffect(() => {
     if (scene) {
@@ -35,7 +33,9 @@ export const useInitCamera = () => {
       activeCamera.lowerRadiusLimit = 5;
       // 카메라 회전 기능만 제거
       activeCamera.inputs.remove(activeCamera.inputs.attached.pointers);
-      activeCamera.inputs.add(customArcRotateCameraPointersInput);
+      activeCamera.inputs.add(
+        new CustomArcRotateCameraPointersInput(shakeDice),
+      );
 
       // Add a ground to the new scene
       const ground = MeshBuilder.CreateGround(
@@ -55,6 +55,9 @@ export const useInitCamera = () => {
       groundMaterial.specularColor = new Color3(0, 0, 0); // 빛의 반사를 제거합니다.
       ground.material = groundMaterial;
     }
+
+    // TODO: shakeDice 의존성 입력하면 무한반복 발생하는 것 해결하기
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scene, setCamera]);
 };
 
