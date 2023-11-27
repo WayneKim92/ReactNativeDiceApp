@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useMemo, useRef} from 'react';
-// import {NativeViewGestureHandler} from 'react-native-gesture-handler';
 import {Linking, Pressable, Text} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -10,7 +9,7 @@ import {setLatestDiceCount} from '../storages/KeyValueStorage';
 import Toast from 'react-native-simple-toast';
 import {throttle} from 'lodash';
 import {koreanDateFormat} from '../utils/date';
-import {DevAdTest} from './Dev';
+import {AdmobBanner} from './AdmobBanner';
 
 export function SettingBottomSheet() {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -84,11 +83,12 @@ export function SettingBottomSheet() {
       snapPoints={snapPoints}
       onChange={handleSheetChanges}>
       <Row edgeInsets={EdgeInsets.horizontal(16)}>
-        <Row alignItems={'center'} style={{width: 100, height: 50}}>
+        <Row alignItems={'center'} flex={1}>
           <Text style={{fontSize: 16}}>주사위 수</Text>
           <Spacer size={16} />
           <Text style={{fontSize: 16}}>{diceCount}</Text>
-          <Spacer size={16} />
+          <Spacer flex={1} />
+
           <Pressable
             style={{backgroundColor: 'black', padding: 8}}
             onPress={upDiceCount}>
@@ -102,7 +102,9 @@ export function SettingBottomSheet() {
           </Pressable>
         </Row>
       </Row>
-      <Spacer size={4} />
+
+      <Spacer size={12} />
+
       <Column edgeInsets={EdgeInsets.horizontal(16)} style={{flex: 1}}>
         <Row alignItems={'center'}>
           <Text style={{fontSize: 16}}>주사위 점수 기록</Text>
@@ -113,20 +115,22 @@ export function SettingBottomSheet() {
             <Text style={{color: 'white'}}>초기화</Text>
           </Pressable>
         </Row>
-        {/*<NativeViewGestureHandler disallowInterruption={true}>*/}
-        <Row edgeInsets={EdgeInsets.fromVH(4, 8)}>
+
+        <Spacer size={12} />
+
+        <Row edgeInsets={EdgeInsets.vertical(4)}>
           <Text style={{fontSize: 16}}>시간</Text>
           <Spacer flex={1} />
           <Text style={{fontSize: 16}}>점수</Text>
         </Row>
+
         <ScrollView
           style={{flex: 1}}
           contentContainerStyle={{
             flexGrow: 1,
             backgroundColor: '#D3D3D3',
-            borderRadius: 8,
             paddingVertical: 8,
-            paddingHorizontal: 16,
+            paddingHorizontal: 8,
           }}>
           {countHistory.map(({key, value}) => (
             <Column
@@ -147,10 +151,9 @@ export function SettingBottomSheet() {
             </Column>
           ))}
         </ScrollView>
-        {/*</NativeViewGestureHandler>*/}
-        {/* 광고 테스트 버튼 */}
-        <DevAdTest />
+
         <Spacer size={16} />
+
         <Pressable
           onPress={() =>
             Linking.openURL('https://forms.gle/wVJhpSDzJgWsbyhp7')
@@ -158,7 +161,10 @@ export function SettingBottomSheet() {
           <Text>요청사항</Text>
         </Pressable>
       </Column>
+
       <Spacer size={16} />
+
+      <AdmobBanner />
     </BottomSheet>
   );
 }

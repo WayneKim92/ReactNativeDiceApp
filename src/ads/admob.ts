@@ -3,7 +3,7 @@ import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 export const initAdmob = async () => {
   const result = await check(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
 
-  console.log('🐞result', result);
+  console.log('🐞initAdmob result', result);
   if (result === RESULTS.DENIED) {
     // The permission has not been requested, so request it.
     await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
