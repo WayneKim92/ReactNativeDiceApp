@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.reactnativehellobabylon"
+    namespace "kr.pe.wayne.app.dice"
     defaultConfig {
-        applicationId "com.reactnativehellobabylon"
+        applicationId "kr.pe.wayne.app.dice"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

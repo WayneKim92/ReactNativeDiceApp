@@ -1,4 +1,4 @@
-package com.reactnativehellobabylon;
+package kr.pe.wayne.app.dice;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

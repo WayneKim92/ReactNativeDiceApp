@@ -1,4 +1,4 @@
-package com.reactnativehellobabylon;
+package kr.pe.wayne.app.dice;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
