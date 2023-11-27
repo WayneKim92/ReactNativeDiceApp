@@ -11,6 +11,7 @@ export const useLoadDice = () => {
 
   useEffect(() => {
     if (engine) {
+      // TODO: 로컬 파일을 읽어서 사용하거나 ReactNativeHelloBabylon 리포지토리 대신 다른 리포를 만들자.
       const url =
         'https://raw.githubusercontent.com/WayneKim92/ReactNativeHelloBabylon/practice/assets/3d_models/dice/scene.gltf';
 
