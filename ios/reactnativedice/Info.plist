@@ -2,11 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-
-    <!-- 🚨 Keep only the permissions used in your app 🚨 -->
-    <key>NSUserTrackingUsageDescription</key>
-    <string>최적화된 광고를 제공하기 위해 사용자의 광고 활동 정보를 수집합니다.</string>
-
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -42,6 +37,8 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>최적화된 광고를 제공하기 위해 사용자의 광고 활동 정보를 수집합니다.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash.storyboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
