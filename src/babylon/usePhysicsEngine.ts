@@ -1,6 +1,7 @@
 import {useEffect} from 'react';
 import {CannonJSPlugin, Vector3} from '@babylonjs/core';
 import {useBabylonStore} from '../stores';
+// HavokPhysics는 현재 웹만 지원하여 cannon 이용
 import cannon from 'cannon';
 // @ts-ignore
 global.CANNON = cannon;
