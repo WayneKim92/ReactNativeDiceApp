@@ -8,18 +8,30 @@ import {force} from './consts';
 import {randomNegativeOrPositiveOne} from './utils';
 import {setDiceCountHistory} from '../storages/KeyValueStorage';
 
-var diceSound = new Sound(
-  'https://raw.githubusercontent.com/WayneKim92/Assets/main/sounds/shaking-dice.mp3',
-  Sound.MAIN_BUNDLE,
-  error => {
-    if (error) {
-      // console.log('failed to load the sound', error);
-      return;
-    }
-  },
-);
-diceSound.setVolume(1);
+const sounds = [
+  new Sound(
+    'https://raw.githubusercontent.com/WayneKim92/Assets/main/sounds/dice_and_dice.mp3',
+    '', // 절대 경로 사용 중에는 필요 없음
+  ),
+  new Sound(
+    'https://raw.githubusercontent.com/WayneKim92/Assets/main/sounds/dice_and_dice.mp3',
+    '',
+  ),
+  new Sound(
+    'https://raw.githubusercontent.com/WayneKim92/Assets/main/sounds/dice_and_dice.mp3',
+    '',
+  ),
+  new Sound(
+    'https://raw.githubusercontent.com/WayneKim92/Assets/main/sounds/dice_and_dice.mp3',
+    '',
+  ),
+  new Sound(
+    'https://raw.githubusercontent.com/WayneKim92/Assets/main/sounds/dice_and_dice.mp3',
+    '',
+  ),
+];
 
+// babylon native에서 Sound 아직 구현되어 있지 않아서 react-native-sound 사용해야함.
 const useRecordHistory = () => {
   const {setHistory} = useAppStore();
 
@@ -48,6 +60,7 @@ export const useShakeDice = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const {scene} = useBabylonStore();
   const directionRef = useRef(randomNegativeOrPositiveOne());
+  const soundCountRef = useRef(0);
 
   const showTotalCount = useShowTotalCount();
 
@@ -57,10 +70,26 @@ export const useShakeDice = () => {
       const yf = 1.5 + directionRef.current * (Math.random() * 2);
       const zf = directionRef.current * (Math.random() * 2);
 
-      if (!diceSound.isPlaying()) {
-        diceSound.play();
-      }
-      scene.meshes.map(mesh => {
+      const dices = scene.meshes.filter(mesh => mesh.name.startsWith('dice'));
+
+      dices.forEach((dice, i) => {
+        if (dice.physicsImpostor) {
+          for (let j = 0; j < dices.length; j++) {
+            if (i !== j && dice.intersectsMesh(dices[j])) {
+              if (soundCountRef.current < 4) {
+                soundCountRef.current += 1;
+                sounds[i].play();
+
+                setTimeout(() => {
+                  soundCountRef.current -= 1;
+                }, 200);
+              }
+            }
+          }
+        }
+      });
+
+      dices.map(mesh => {
         if (mesh.name.startsWith('dice')) {
           if (mesh.physicsImpostor) {
             // 랜덤한 방향과 크기의 힘을 적용하여 주사위를 회전하고 흔들립니다.
@@ -89,10 +118,7 @@ export const useShakeDice = () => {
           clearTimeout(timeoutRef.current);
         }
         timeoutRef.current = setTimeout(
-          () => {
-            showTotalCount();
-            diceSound.stop();
-          }, // 쓰로틀링 간격을 2000ms로 설정
+          showTotalCount, // 쓰로틀링 간격을 2000ms로 설정
           2000,
         );
       });
