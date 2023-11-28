@@ -1,12 +1,8 @@
 import {useEffect} from 'react';
 import {
   ArcRotateCameraPointersInput,
-  Color3,
-  MeshBuilder,
   Nullable,
-  PhysicsImpostor,
   PointerTouch,
-  StandardMaterial,
 } from '@babylonjs/core';
 import {ArcRotateCamera} from '@babylonjs/core/Cameras/arcRotateCamera';
 import {useBabylonStore} from '../stores';
@@ -36,24 +32,6 @@ export const useInitCamera = () => {
       activeCamera.inputs.add(
         new CustomArcRotateCameraPointersInput(shakeDice),
       );
-
-      // Add a ground to the new scene
-      const ground = MeshBuilder.CreateGround(
-        'ground',
-        {width: 100, height: 100},
-        scene,
-      );
-      ground.physicsImpostor = new PhysicsImpostor(
-        ground,
-        PhysicsImpostor.BoxImpostor,
-        {mass: 0},
-        scene,
-      );
-      // Create a green material
-      const groundMaterial = new StandardMaterial('groundMaterial', scene);
-      groundMaterial.diffuseColor = new Color3(0.1, 0.1, 0.1); // RGB values range from 0 to 1
-      groundMaterial.specularColor = new Color3(0, 0, 0); // 빛의 반사를 제거합니다.
-      ground.material = groundMaterial;
     }
 
     // TODO: shakeDice 의존성 입력하면 무한반복 발생하는 것 해결하기

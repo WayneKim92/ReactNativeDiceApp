@@ -1,5 +1,11 @@
 import {useEffect} from 'react';
-import {MeshBuilder, PhysicsImpostor, Vector3} from '@babylonjs/core';
+import {
+  Vector3,
+  Color3,
+  MeshBuilder,
+  PhysicsImpostor,
+  StandardMaterial,
+} from '@babylonjs/core';
 import {useBabylonStore} from '../stores';
 import {setMeshTransparency} from './utils';
 
@@ -8,6 +14,24 @@ export const useInitModels = () => {
 
   useEffect(() => {
     if (scene) {
+      // Add a ground to the new scene
+      const ground = MeshBuilder.CreateGround(
+        'ground',
+        {width: 100, height: 100},
+        scene,
+      );
+      ground.physicsImpostor = new PhysicsImpostor(
+        ground,
+        PhysicsImpostor.BoxImpostor,
+        {mass: 0},
+        scene,
+      );
+      // Create a green material
+      const groundMaterial = new StandardMaterial('groundMaterial', scene);
+      groundMaterial.diffuseColor = new Color3(0.1, 0.1, 0.1); // RGB values range from 0 to 1
+      groundMaterial.specularColor = new Color3(0, 0, 0); // 빛의 반사를 제거합니다.
+      ground.material = groundMaterial;
+
       // Create a wall around the dice
       const wallSize = 7.5; // Adjust the size as needed
       const wallThickness = 0.1; // Adjust the thickness as needed
