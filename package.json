@@ -9,7 +9,7 @@
     "ios:my Mac (Designed for iPhone)": "yarn start & sleep 1; open -a Xcode.app ios/reactnativedice.xcworkspace",
     "ios:device": "react-native run-ios --device",
     "ios:release": "react-native run-ios --device --configuration Release",
-    "preinstall": "npx pod-install",
+    "postinstall": "npx pod-install",
     "lint": "eslint .",
     "start": "react-native start",
     "clean": "react-native start -- --reset-cache",
