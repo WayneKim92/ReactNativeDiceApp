@@ -6047,6 +6047,11 @@ react-native-simple-toast@^3.1.0:
   resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-3.1.0.tgz#c9c2cc666803a74c690b274d4faa107283c228c1"
   integrity sha512-7gy7nfMLmUUEHby8x8g0v+0cMbEC5L7nUiS3s8Qf7yK+jJRI8PVwniRMVICyeuczfAgRWGkvZb/CVqb4SYNpzA==
 
+react-native-sound@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.11.2.tgz#e542dc5b9e16ab4b3ac7e6eaddb1fc8d98da9038"
+  integrity sha512-LmGc8lgOK3qecYMVQpyHvww/C+wgT6sWeMpVbOe4NCRGC2yKd4fo4U0KBUo9PO7AqKESO3I/2GZg1/C0+bwiiA==
+
 react-native@0.71.14:
   version "0.71.14"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.71.14.tgz#df12b405a7913b736de01b0347af14e4be7bf324"

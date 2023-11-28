@@ -2,10 +2,23 @@ import {useEffect, useRef} from 'react';
 import Toast from 'react-native-simple-toast';
 import {throttle} from 'lodash';
 import {Matrix, Mesh, Vector3} from '@babylonjs/core';
+import Sound from 'react-native-sound';
 import {useAppStore, useBabylonStore} from '../stores';
 import {force} from './consts';
 import {randomNegativeOrPositiveOne} from './utils';
 import {setDiceCountHistory} from '../storages/KeyValueStorage';
+
+var diceSound = new Sound(
+  'https://raw.githubusercontent.com/WayneKim92/Assets/main/sounds/shaking-dice.mp3',
+  Sound.MAIN_BUNDLE,
+  error => {
+    if (error) {
+      // console.log('failed to load the sound', error);
+      return;
+    }
+  },
+);
+diceSound.setVolume(1);
 
 const useRecordHistory = () => {
   const {setHistory} = useAppStore();
@@ -44,6 +57,9 @@ export const useShakeDice = () => {
       const yf = 1.5 + directionRef.current * (Math.random() * 2);
       const zf = directionRef.current * (Math.random() * 2);
 
+      if (!diceSound.isPlaying()) {
+        diceSound.play();
+      }
       scene.meshes.map(mesh => {
         if (mesh.name.startsWith('dice')) {
           if (mesh.physicsImpostor) {
@@ -73,7 +89,10 @@ export const useShakeDice = () => {
           clearTimeout(timeoutRef.current);
         }
         timeoutRef.current = setTimeout(
-          showTotalCount, // 쓰로틀링 간격을 2000ms로 설정
+          () => {
+            showTotalCount();
+            diceSound.stop();
+          }, // 쓰로틀링 간격을 2000ms로 설정
           2000,
         );
       });
