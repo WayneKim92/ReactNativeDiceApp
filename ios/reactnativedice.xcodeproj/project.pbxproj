@@ -505,7 +505,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CQ2R34LF22;
+				DEVELOPMENT_TEAM = AZ9NKP8D9G;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = reactnativedice/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "react-native-dice";
@@ -519,7 +519,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kr.pe.wayne.app.dice;
+				PRODUCT_BUNDLE_IDENTIFIER = "kr.pe.wayne.app.chaos-dice";
 				PRODUCT_NAME = reactnativedice;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -535,7 +535,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CQ2R34LF22;
+				DEVELOPMENT_TEAM = AZ9NKP8D9G;
 				INFOPLIST_FILE = reactnativedice/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "react-native-dice";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -548,7 +548,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kr.pe.wayne.app.dice;
+				PRODUCT_BUNDLE_IDENTIFIER = "kr.pe.wayne.app.chaos-dice";
 				PRODUCT_NAME = reactnativedice;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

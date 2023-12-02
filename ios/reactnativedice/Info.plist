@@ -24,6 +24,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>스토어에서 강제로 요구함</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -36,7 +38,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>최적화된 광고를 제공하기 위해 사용자의 광고 활동 정보를 수집합니다.</string>
 	<key>UILaunchStoryboardName</key>
