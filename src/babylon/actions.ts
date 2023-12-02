@@ -2,34 +2,10 @@ import {useEffect, useRef} from 'react';
 import Toast from 'react-native-simple-toast';
 import {throttle} from 'lodash';
 import {Matrix, Mesh, Vector3} from '@babylonjs/core';
-import Sound from 'react-native-sound';
 import {useAppStore, useBabylonStore} from '../stores';
 import {force} from './consts';
 import {randomNegativeOrPositiveOne} from './utils';
 import {setDiceCountHistory} from '../storages/KeyValueStorage';
-
-const sounds = [
-  new Sound(
-    'https://raw.githubusercontent.com/WayneKim92/Assets/main/sounds/dice_and_dice.mp3',
-    '', // 절대 경로 사용 중에는 필요 없음
-  ),
-  new Sound(
-    'https://raw.githubusercontent.com/WayneKim92/Assets/main/sounds/dice_and_dice.mp3',
-    '',
-  ),
-  new Sound(
-    'https://raw.githubusercontent.com/WayneKim92/Assets/main/sounds/dice_and_dice.mp3',
-    '',
-  ),
-  new Sound(
-    'https://raw.githubusercontent.com/WayneKim92/Assets/main/sounds/dice_and_dice.mp3',
-    '',
-  ),
-  new Sound(
-    'https://raw.githubusercontent.com/WayneKim92/Assets/main/sounds/dice_and_dice.mp3',
-    '',
-  ),
-];
 
 // babylon native에서 Sound 아직 구현되어 있지 않아서 react-native-sound 사용해야함.
 const useRecordHistory = () => {
@@ -60,7 +36,6 @@ export const useShakeDice = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const {scene} = useBabylonStore();
   const directionRef = useRef(randomNegativeOrPositiveOne());
-  const soundCountRef = useRef(0);
 
   const showTotalCount = useShowTotalCount();
 
@@ -71,23 +46,6 @@ export const useShakeDice = () => {
       const zf = directionRef.current * (Math.random() * 2);
 
       const dices = scene.meshes.filter(mesh => mesh.name.startsWith('dice'));
-
-      dices.forEach((dice, i) => {
-        if (dice.physicsImpostor) {
-          for (let j = 0; j < dices.length; j++) {
-            if (i !== j && dice.intersectsMesh(dices[j])) {
-              if (soundCountRef.current < 4) {
-                soundCountRef.current += 1;
-                sounds[i].play();
-
-                setTimeout(() => {
-                  soundCountRef.current -= 1;
-                }, 200);
-              }
-            }
-          }
-        }
-      });
 
       dices.map(mesh => {
         if (mesh.name.startsWith('dice')) {

@@ -23,7 +23,7 @@ export const useInitCamera = () => {
       // 카메라 위치
       activeCamera.alpha = Math.PI * 0.5;
       activeCamera.beta = Math.PI * 0.1;
-      activeCamera.radius = 15;
+      activeCamera.radius = 20;
       // 확대 축소 범위 지정
       activeCamera.upperRadiusLimit = 20;
       activeCamera.lowerRadiusLimit = 5;
