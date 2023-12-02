@@ -1,10 +1,12 @@
 {
   "name": "react-native-dice",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
     "android:release": "react-native run-android --variant release",
+    "android:build:release": "npx react-native build-android --mode=release",
+    "android:aab-build:release": "cd android && ./gradlew bundleRelease",
     "ios run guide": "@babylonjs does not support simulators, so you have to run it on Xcode at My Mac (Designed for iPhone) or a real device.",
     "ios:my Mac (Designed for iPhone)": "yarn start & sleep 1; open -a Xcode.app ios/reactnativedice.xcworkspace",
     "ios:device": "react-native run-ios --device",
