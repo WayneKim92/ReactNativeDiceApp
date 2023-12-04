@@ -8,5 +8,5 @@ export function Bablyon() {
 
   useInitBabylon();
 
-  return <EngineView camera={camera} displayFrameRate={true} />;
+  return <EngineView camera={camera} displayFrameRate={__DEV__} />;
 }
